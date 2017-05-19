@@ -120,7 +120,7 @@ def _RunningAvgLoss(loss, running_avg_loss, summary_writer, step, decay=0.999):
 
 def _Train(model, data_batcher):
   """Runs model training."""
-  with tf.device('/gpu:0'): # '/cpu:0'
+  with tf.device('/cpu:0'): # '/cpu:0'
     model.build_graph()
     saver = tf.train.Saver()
     # Train dir is different from log_root to avoid summary directory
@@ -214,8 +214,8 @@ def main(unused_argv):
       lr=0.15, #0.15 # learning rate
       batch_size=batch_size,
       enc_layers=4,
-      enc_timesteps=120, # article length: defailt 120
-      dec_timesteps=30, # summary length: defailt 30
+      enc_timesteps=120, # article max length: defailt 120
+      dec_timesteps=30, # summary max length: defailt 30
       min_input_len=2,  # discard articles/summaries < than this
       num_hidden=256,  # for rnn cell
       emb_dim=128,  # If 0, don't use embedding
