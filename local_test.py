@@ -214,8 +214,8 @@ def main(unused_argv):
       lr=0.15, #0.15 # learning rate
       batch_size=batch_size,
       enc_layers=4,
-      enc_timesteps=20, # article length: defailt 120
-      dec_timesteps=20, # summary length: defailt 30
+      enc_timesteps=120, # article length: defailt 120
+      dec_timesteps=30, # summary length: defailt 30
       min_input_len=2,  # discard articles/summaries < than this
       num_hidden=256,  # for rnn cell
       emb_dim=128,  # If 0, don't use embedding
