@@ -56,17 +56,18 @@ import seq2seq_attention_model
 # beam_size_in = 8
 # num_gpus_in = 1
 
-mode_in = 'train'
-article_key_in = 'article'
-abstract_key_in = 'abstract'
-data_path_in = 'data/data'
-vocab_path_in = 'data/toy_data_vocab'
-log_root_in = 'log_root'
-train_dir_in = 'log_root/train'
-eval_dir_in = 'log_root/eval'
-decode_dir_in = 'log_root/decode'
-beam_size_in = 8
-num_gpus_in = 1
+# mode_in = 'train'
+# article_key_in = 'article'
+# abstract_key_in = 'abstract'
+# data_path_in = 'data/data'
+# vocab_path_in = 'data/toy_data_vocab'
+# log_root_in = 'log_root'
+# train_dir_in = 'log_root/train'
+# eval_dir_in = 'log_root/eval'
+# decode_dir_in = 'log_root/decode'
+# beam_size_in = 8
+# num_gpus_in = 1
+
 
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string('data_path',

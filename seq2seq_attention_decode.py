@@ -23,13 +23,13 @@ import beam_search
 import data
 
 FLAGS = tf.app.flags.FLAGS
-tf.app.flags.DEFINE_integer('max_decode_steps', 1000000,
+tf.app.flags.DEFINE_integer('max_decode_steps', 2,
                             'Number of decoding steps.')
 tf.app.flags.DEFINE_integer('decode_batches_per_ckpt', 8000,
                             'Number of batches to decode before restoring next '
                             'checkpoint')
-
-DECODE_LOOP_DELAY_SECS = 10#60
+# max_decode_steps = 1000000
+DECODE_LOOP_DELAY_SECS = 5#60
 DECODE_IO_FLUSH_INTERVAL = 100
 
 
