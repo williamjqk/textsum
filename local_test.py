@@ -21,6 +21,8 @@ Implement "Abstractive Text Summarization using Sequence-to-sequence RNNS and
 Beyond."
 
 """
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="2"
 import sys
 import time
 
