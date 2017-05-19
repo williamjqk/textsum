@@ -1,9 +1,9 @@
 # 运行方式
 CUDA_VISIBLE_DEVICES=2 python local_test.py
 ### train
-CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data --vocab_path=data/toy_vocab --log_root=log_root --train_dir=log_root/train
+CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_vocab --log_root=log_root --train_dir=log_root/train
 ### test
-CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data --vocab_path=data/toy_vocab --log_root=log_root --train_dir=log_root/train
+CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=decode --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_vocab --log_root=log_root --decode_dir=log_root/decode
 
 download_common_crawl_170222a.py-----用网上的程序下载amazon的common crawl有问题
 download_common_crawl_170223a.py-----自己修改过的用urllib和gzip保存common crawl的wet
