@@ -1,3 +1,7 @@
+# 运行方式
+CUDA_VISIBLE_DEVICES=2 python local_test.py
+
+
 download_common_crawl_170222a.py-----用网上的程序下载amazon的common crawl有问题
 download_common_crawl_170223a.py-----自己修改过的用urllib和gzip保存common crawl的wet
                                 -----这个程序虽然能用，但是aws common crawl中的内容太杂了
