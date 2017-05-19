@@ -219,7 +219,7 @@ def main(unused_argv):
       num_hidden=256,  # for rnn cell
       emb_dim=128,  # If 0, don't use embedding
       max_grad_norm=2,
-      num_softmax_samples=4096)  # If 0, no sampled softmax.
+      num_softmax_samples=4096)  # If 0, no sampled softmax. # it must less than vocab num 
 
   batcher = batch_reader.Batcher(
       FLAGS.data_path, vocab, hps, FLAGS.article_key,
