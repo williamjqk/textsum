@@ -120,7 +120,7 @@ def _RunningAvgLoss(loss, running_avg_loss, summary_writer, step, decay=0.999):
 
 def _Train(model, data_batcher):
   """Runs model training."""
-  with tf.device('/cpu:0'): # '/cpu:0'
+  with tf.device('/gpu:0'): # '/cpu:0'
     model.build_graph()
     saver = tf.train.Saver()
     # Train dir is different from log_root to avoid summary directory
