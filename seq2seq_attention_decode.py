@@ -155,7 +155,7 @@ class BSDecoder(object):
     #     continue
     #   print("decode step: {} ".format(step))
     #   step += 1
-    saver = self._saver
+    # saver = self._saver
     ckpt_state = tf.train.get_checkpoint_state(FLAGS.log_root)
     if not (ckpt_state and ckpt_state.model_checkpoint_path):
       tf.logging.info('No model to decode yet at %s', FLAGS.log_root)
@@ -165,7 +165,7 @@ class BSDecoder(object):
     ckpt_path = os.path.join(
         FLAGS.log_root, os.path.basename(ckpt_state.model_checkpoint_path))
     tf.logging.info('renamed checkpoint path %s', ckpt_path)
-    saver.restore(sess, ckpt_path)
+    self._saver.restore(sess, ckpt_path)
 
     self._decode_io.ResetFiles()
     for _ in range(FLAGS.decode_batches_per_ckpt):
