@@ -205,7 +205,7 @@ def main(unused_argv):
   assert vocab.CheckVocab(data.SENTENCE_END) > 0
 
   batch_size = 4
-  if FLAGS.mode == 'decode':
+  if FLAGS.mode == 'decode' or FLAGS.mode == 'single_decode':
     batch_size = FLAGS.beam_size
 
   hps = seq2seq_attention_model.HParams(
