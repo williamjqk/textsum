@@ -168,28 +168,24 @@ class BSDecoder(object):
     saver.restore(sess, ckpt_path)
 
     self._decode_io.ResetFiles()
-    # for _ in range(FLAGS.decode_batches_per_ckpt):
-    (article_batch, _, _, article_lens, _, _, origin_articles,
-     origin_abstracts) = self._batch_reader.NextBatch()
-    print('##### article_batch: {}'.format(article_batch))
-    print('##### article_lens: {}'.format(article_lens))
-    print('##### origin_articles: {}'.format(origin_articles))
-    print('##### origin_abstracts: {}'.format(origin_abstracts))
-    for i in range(self._hps.batch_size):
-      bs = beam_search.BeamSearch(
-          self._model, self._hps.batch_size,
-          self._vocab.WordToId(data.SENTENCE_START),
-          self._vocab.WordToId(data.SENTENCE_END),
-          self._hps.dec_timesteps)
+    for _ in range(FLAGS.decode_batches_per_ckpt):
+      (article_batch, _, _, article_lens, _, _, origin_articles,
+       origin_abstracts) = self._batch_reader.NextBatch()
+      for i in range(self._hps.batch_size):
+        bs = beam_search.BeamSearch(
+            self._model, self._hps.batch_size,
+            self._vocab.WordToId(data.SENTENCE_START),
+            self._vocab.WordToId(data.SENTENCE_END),
+            self._hps.dec_timesteps)
 
-      article_batch_cp = article_batch.copy()#the first two sentences ids
-      article_batch_cp[:] = article_batch[i:i+1]
-      article_lens_cp = article_lens.copy()
-      article_lens_cp[:] = article_lens[i:i+1]
-      best_beam = bs.BeamSearch(sess, article_batch_cp, article_lens_cp)[0]
-      decode_output = [int(t) for t in best_beam.tokens[1:]]
-      self._DecodeBatch(
-          origin_articles[i], origin_abstracts[i], decode_output)
+        article_batch_cp = article_batch.copy()#the first two sentences ids
+        article_batch_cp[:] = article_batch[i:i+1]
+        article_lens_cp = article_lens.copy()
+        article_lens_cp[:] = article_lens[i:i+1]
+        best_beam = bs.BeamSearch(sess, article_batch_cp, article_lens_cp)[0]
+        decode_output = [int(t) for t in best_beam.tokens[1:]]
+        self._DecodeBatch(
+            origin_articles[i], origin_abstracts[i], decode_output)
     return True
 
   def _DecodeBatch(self, article, abstract, output_ids):
