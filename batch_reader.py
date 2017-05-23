@@ -68,8 +68,8 @@ class Batcher(object):
     self._input_queue = Queue.Queue(QUEUE_NUM_BATCH * self._hps.batch_size)
     self._bucket_input_queue = Queue.Queue(QUEUE_NUM_BATCH)
     self._input_threads = []
-    input_thread_num = 1 if self._hps == 'decode' else 16
-    bucketing_thread_num = 1 if self._hps == 'decode' else 4
+    input_thread_num = 16# 1 if self._hps == 'decode' else 16
+    bucketing_thread_num = 4# 1 if self._hps == 'decode' else 4
     for _ in range(input_thread_num):
       self._input_threads.append(Thread(target=self._FillInputQueue))
       self._input_threads[-1].daemon = True
@@ -134,7 +134,7 @@ class Batcher(object):
     start_id = self._vocab.WordToId(data.SENTENCE_START)
     end_id = self._vocab.WordToId(data.SENTENCE_END)
     pad_id = self._vocab.WordToId(data.PAD_TOKEN)
-    input_gen = self._TextGenerator(data.ExampleGen(self._data_path))
+    input_gen = self._TextGenerator(data.ExampleGen(self._data_path, 1)) # original have just path
     while True:
       (article, abstract) = input_gen.__next__()
       article_sentences = [sent.strip() for sent in

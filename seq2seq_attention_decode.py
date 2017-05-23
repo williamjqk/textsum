@@ -182,6 +182,12 @@ class BSDecoder(object):
             origin_articles[i], origin_abstracts[i], decode_output)
     print("##### decode over #####")
 
+  # def get_single_data(self, sent):
+  #     def TextGenerator(example):
+  #         return
+  #     input_gen = TextGenerator(sent)
+  #
+  #     return
 
   def _DecodeBatch(self, article, abstract, output_ids):
     """Convert id to words and writing results.
