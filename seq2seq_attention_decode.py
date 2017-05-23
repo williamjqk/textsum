@@ -161,7 +161,6 @@ class BSDecoder(object):
     tf.logging.info('renamed checkpoint path %s', ckpt_path)
     self._saver.restore(sess, ckpt_path)
 
-    self._decode_io.ResetFiles()
     for _ in range(FLAGS.decode_batches_per_ckpt):
       (article_batch, _, _, article_lens, _, _, origin_articles,
        origin_abstracts) = self._batch_reader.NextBatch()
