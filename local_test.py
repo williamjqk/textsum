@@ -246,6 +246,16 @@ def main(unused_argv):
         decode_mdl_hps, vocab, num_gpus=FLAGS.num_gpus)
     decoder = seq2seq_attention_decode.BSDecoder(model, batcher, hps, vocab)
     decoder.DecodeLoop()
+  elif hps.mode == 'single':
+    decode_mdl_hps = hps
+    # Only need to restore the 1st step and reuse it since
+    # we keep and feed in state for each step's output.
+    decode_mdl_hps = hps._replace(dec_timesteps=1)
+    model = seq2seq_attention_model.Seq2SeqAttentionModel(
+        decode_mdl_hps, vocab, num_gpus=FLAGS.num_gpus)
+    decoder = seq2seq_attention_decode.BSDecoder(model, batcher, hps, vocab)
+    decoder.single_decode()
+
 
 
 if __name__ == '__main__':

@@ -30,7 +30,7 @@ tf.app.flags.DEFINE_integer('decode_batches_per_ckpt', 1,
                             'checkpoint')
 # max_decode_steps = 1000000
 # 'decode_batches_per_ckpt', 8000,
-DECODE_LOOP_DELAY_SECS = 5#60
+DECODE_LOOP_DELAY_SECS = 1#5#60
 DECODE_IO_FLUSH_INTERVAL = 100
 
 
@@ -143,6 +143,53 @@ class BSDecoder(object):
         decode_output = [int(t) for t in best_beam.tokens[1:]]
         self._DecodeBatch(
             origin_articles[i], origin_abstracts[i], decode_output)
+    return True
+
+  def single_decode(self):
+    """Decoding loop for long running process."""
+    sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
+    # step = 0
+    # while step < FLAGS.max_decode_steps: #
+    #   time.sleep(DECODE_LOOP_DELAY_SECS)
+    #   if not self._Decode(self._saver, sess):
+    #     continue
+    #   print("decode step: {} ".format(step))
+    #   step += 1
+    saver = self._saver
+    ckpt_state = tf.train.get_checkpoint_state(FLAGS.log_root)
+    if not (ckpt_state and ckpt_state.model_checkpoint_path):
+      tf.logging.info('No model to decode yet at %s', FLAGS.log_root)
+      return False
+
+    tf.logging.info('checkpoint path %s', ckpt_state.model_checkpoint_path)
+    ckpt_path = os.path.join(
+        FLAGS.log_root, os.path.basename(ckpt_state.model_checkpoint_path))
+    tf.logging.info('renamed checkpoint path %s', ckpt_path)
+    saver.restore(sess, ckpt_path)
+
+    self._decode_io.ResetFiles()
+    # for _ in range(FLAGS.decode_batches_per_ckpt):
+    (article_batch, _, _, article_lens, _, _, origin_articles,
+     origin_abstracts) = self._batch_reader.NextBatch()
+    print('##### article_batch: {}'.format(article_batch))
+    print('##### article_lens: {}'.format(article_lens))
+    print('##### origin_articles: {}'.format(origin_articles))
+    print('##### origin_abstracts: {}'.format(origin_abstracts))
+    for i in range(self._hps.batch_size):
+      bs = beam_search.BeamSearch(
+          self._model, self._hps.batch_size,
+          self._vocab.WordToId(data.SENTENCE_START),
+          self._vocab.WordToId(data.SENTENCE_END),
+          self._hps.dec_timesteps)
+
+      article_batch_cp = article_batch.copy()#the first two sentences ids
+      article_batch_cp[:] = article_batch[i:i+1]
+      article_lens_cp = article_lens.copy()
+      article_lens_cp[:] = article_lens[i:i+1]
+      best_beam = bs.BeamSearch(sess, article_batch_cp, article_lens_cp)[0]
+      decode_output = [int(t) for t in best_beam.tokens[1:]]
+      self._DecodeBatch(
+          origin_articles[i], origin_abstracts[i], decode_output)
     return True
 
   def _DecodeBatch(self, article, abstract, output_ids):
