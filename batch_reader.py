@@ -70,6 +70,7 @@ class Batcher(object):
     self._input_threads = []
     input_thread_num = 1 if self._hps == 'decode' else 16
     bucketing_thread_num = 1 if self._hps == 'decode' else 4
+    print('##### self._hps '.format(self._hps))
     for _ in range(input_thread_num):
       self._input_threads.append(Thread(target=self._FillInputQueue))
       self._input_threads[-1].daemon = True
