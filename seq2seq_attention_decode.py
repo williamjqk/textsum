@@ -145,18 +145,43 @@ class BSDecoder(object):
             origin_articles[i], origin_abstracts[i], decode_output)
     return True
 
-
-
   def single_decode(self):
     """Decoding loop for long running process."""
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
-    step = 0
-    while step < FLAGS.max_decode_steps: #
-      time.sleep(DECODE_LOOP_DELAY_SECS)
-      if not self._Decode(self._saver, sess):
-        continue
-      print("decode step: {} ".format(step))
-      step += 1
+    time.sleep(DECODE_LOOP_DELAY_SECS)
+
+    ckpt_state = tf.train.get_checkpoint_state(FLAGS.log_root)
+    if not (ckpt_state and ckpt_state.model_checkpoint_path):
+      tf.logging.info('No model to decode yet at %s', FLAGS.log_root)
+      return False
+
+    tf.logging.info('checkpoint path %s', ckpt_state.model_checkpoint_path)
+    ckpt_path = os.path.join(
+        FLAGS.log_root, os.path.basename(ckpt_state.model_checkpoint_path))
+    tf.logging.info('renamed checkpoint path %s', ckpt_path)
+    saver.restore(sess, ckpt_path)
+
+    self._saver._decode_io.ResetFiles()
+    for _ in range(1):
+      (article_batch, _, _, article_lens, _, _, origin_articles,
+       origin_abstracts) = self._batch_reader.NextBatch()
+      for i in range(self._hps.batch_size):
+        bs = beam_search.BeamSearch(
+            self._model, self._hps.batch_size,
+            self._vocab.WordToId(data.SENTENCE_START),
+            self._vocab.WordToId(data.SENTENCE_END),
+            self._hps.dec_timesteps)
+
+        article_batch_cp = article_batch.copy()#the first two sentences ids
+        article_batch_cp[:] = article_batch[i:i+1]
+        article_lens_cp = article_lens.copy()
+        article_lens_cp[:] = article_lens[i:i+1]
+        best_beam = bs.BeamSearch(sess, article_batch_cp, article_lens_cp)[0]
+        decode_output = [int(t) for t in best_beam.tokens[1:]]
+        self._DecodeBatch(
+            origin_articles[i], origin_abstracts[i], decode_output)
+    print("##### decode over #####")
+
 
   def _DecodeBatch(self, article, abstract, output_ids):
     """Convert id to words and writing results.
