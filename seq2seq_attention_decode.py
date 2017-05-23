@@ -156,6 +156,8 @@ class BSDecoder(object):
     #   print("decode step: {} ".format(step))
     #   step += 1
     # saver = self._saver
+    time.sleep(DECODE_LOOP_DELAY_SECS)
+
     ckpt_state = tf.train.get_checkpoint_state(FLAGS.log_root)
     if not (ckpt_state and ckpt_state.model_checkpoint_path):
       tf.logging.info('No model to decode yet at %s', FLAGS.log_root)
