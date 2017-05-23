@@ -68,8 +68,8 @@ class Batcher(object):
     self._input_queue = Queue.Queue(QUEUE_NUM_BATCH * self._hps.batch_size)
     self._bucket_input_queue = Queue.Queue(QUEUE_NUM_BATCH)
     self._input_threads = []
-    input_thread_num = 1 if self._hps == 'decode' else 16
-    bucketing_thread_num = 1 if self._hps == 'decode' else 4
+    input_thread_num = 16#1 if self._hps == 'decode' else 16
+    bucketing_thread_num = 4#1 if self._hps == 'decode' else 4
     print('##### self._hps '.format(self._hps))
     for _ in range(input_thread_num):
       self._input_threads.append(Thread(target=self._FillInputQueue))
@@ -81,9 +81,9 @@ class Batcher(object):
       self._bucketing_threads[-1].daemon = True
       self._bucketing_threads[-1].start()
 
-    self._watch_thread = Thread(target=self._WatchThreads)
-    self._watch_thread.daemon = True
-    self._watch_thread.start()
+    # self._watch_thread = Thread(target=self._WatchThreads)
+    # self._watch_thread.daemon = True
+    # self._watch_thread.start()
 
   def NextBatch(self):
     """Returns a batch of inputs for seq2seq attention model.
