@@ -159,9 +159,9 @@ class BSDecoder(object):
     ckpt_path = os.path.join(
         FLAGS.log_root, os.path.basename(ckpt_state.model_checkpoint_path))
     tf.logging.info('renamed checkpoint path %s', ckpt_path)
-    saver.restore(sess, ckpt_path)
+    self._saver.restore(sess, ckpt_path)
 
-    self._saver._decode_io.ResetFiles()
+    self._decode_io.ResetFiles()
     for _ in range(1):
       (article_batch, _, _, article_lens, _, _, origin_articles,
        origin_abstracts) = self._batch_reader.NextBatch()
