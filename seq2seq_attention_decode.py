@@ -165,21 +165,32 @@ class BSDecoder(object):
     for _ in range(FLAGS.decode_batches_per_ckpt):
       (article_batch, _, _, article_lens, _, _, origin_articles,
        origin_abstracts) = self._batch_reader.NextBatch()
-      for i in range(self._hps.batch_size):
+      for i in range(1):#range(self._hps.batch_size):
         bs = beam_search.BeamSearch(
             self._model, self._hps.batch_size,
             self._vocab.WordToId(data.SENTENCE_START),
             self._vocab.WordToId(data.SENTENCE_END),
             self._hps.dec_timesteps)
 
-        article_batch_cp = article_batch.copy()#the first two sentences ids
-        article_batch_cp[:] = article_batch[i:i+1]
-        article_lens_cp = article_lens.copy()
-        article_lens_cp[:] = article_lens[i:i+1]
-        best_beam = bs.BeamSearch(sess, article_batch_cp, article_lens_cp)[0]
+        one_sent = 'the mexican peso appeared to stabilize .'
+        one_sent = one_sent.strip().split()
+        article_lens_cp2 = [len(one_sent)]*2
+        one_sent = [self._vocab.WordToId(x) for x in one_sent]
+        if len(one_sent) < self._hps.enc_timesteps:
+          padid = self._vocab.WordToId(data.PAD_TOKEN)
+          one_sent = one_sent + [padid]*(self._hps.enc_timesteps-len(one_sent))
+        else:
+          one_sent = one_sent[:self._hps.enc_timesteps]
+        article_batch_cp2 = [one_sent]*2
+
+        best_beam = bs.BeamSearch(sess, article_batch_cp2, article_lens_cp2)[0]
         decode_output = [int(t) for t in best_beam.tokens[1:]]
-        self._DecodeBatch(
-            origin_articles[i], origin_abstracts[i], decode_output)
+        decoded_output = ' '.join(data.Ids2Words(decode_output, self._vocab))
+        end_p = decoded_output.find(data.SENTENCE_END, 0)
+        if end_p != -1:
+          decoded_output = decoded_output[:end_p]
+        decoded_output = decoded_output.strip()
+        print("decode output = {}".format(decoded_output))
     print("##### decode over #####")
 
   # def get_single_data(self, sent):
