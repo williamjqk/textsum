@@ -153,7 +153,7 @@ class BSDecoder(object):
     # while step < FLAGS.max_decode_steps: #
     time.sleep(DECODE_LOOP_DELAY_SECS)
     if not self._Decode(self._saver, sess):
-      continue
+      return
     print("decode step: {} ".format(step))
 
 
