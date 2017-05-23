@@ -100,6 +100,7 @@ class BSDecoder(object):
       time.sleep(DECODE_LOOP_DELAY_SECS)
       if not self._Decode(self._saver, sess):
         continue
+      print("decode step: {} ".format(step))
       step += 1
 
   def _Decode(self, saver, sess):
