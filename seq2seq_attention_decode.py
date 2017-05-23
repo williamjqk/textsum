@@ -162,7 +162,7 @@ class BSDecoder(object):
     self._saver.restore(sess, ckpt_path)
 
     self._decode_io.ResetFiles()
-    for _ in range(1):
+    for _ in range(FLAGS.decode_batches_per_ckpt):
       (article_batch, _, _, article_lens, _, _, origin_articles,
        origin_abstracts) = self._batch_reader.NextBatch()
       for i in range(self._hps.batch_size):
