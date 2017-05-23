@@ -205,7 +205,7 @@ def main(unused_argv):
   assert vocab.CheckVocab(data.SENTENCE_END) > 0
 
   batch_size = 4
-  if FLAGS.mode == 'decode' or FLAGS.mode == 'single':
+  if FLAGS.mode == 'decode':
     batch_size = FLAGS.beam_size
 
   hps = seq2seq_attention_model.HParams(
@@ -245,15 +245,7 @@ def main(unused_argv):
     model = seq2seq_attention_model.Seq2SeqAttentionModel(
         decode_mdl_hps, vocab, num_gpus=FLAGS.num_gpus)
     decoder = seq2seq_attention_decode.BSDecoder(model, batcher, hps, vocab)
-    decoder.DecodeLoop()
-  elif hps.mode == 'single':
-    decode_mdl_hps = hps
-    # Only need to restore the 1st step and reuse it since
-    # we keep and feed in state for each step's output.
-    decode_mdl_hps = hps._replace(dec_timesteps=1)
-    model = seq2seq_attention_model.Seq2SeqAttentionModel(
-        decode_mdl_hps, vocab, num_gpus=FLAGS.num_gpus)
-    decoder = seq2seq_attention_decode.BSDecoder(model, batcher, hps, vocab)
+    # decoder.DecodeLoop()
     decoder.single_decode()
 
 
