@@ -145,7 +145,7 @@ class BSDecoder(object):
             origin_articles[i], origin_abstracts[i], decode_output)
     return True
 
-  def single_decode(self):
+  def single_decode(self, one_sent_in):
     """Decoding loop for long running process."""
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     time.sleep(DECODE_LOOP_DELAY_SECS)
@@ -171,7 +171,7 @@ class BSDecoder(object):
             self._vocab.WordToId(data.SENTENCE_END),
             self._hps.dec_timesteps)
 
-        one_sent = 'the mexican peso appeared to stabilize .'
+        one_sent = one_sent_in
         one_sent = one_sent.strip().split()
         article_lens_cp2 = [len(one_sent)]*2
         one_sent = [self._vocab.WordToId(x) for x in one_sent]

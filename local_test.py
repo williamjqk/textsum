@@ -246,7 +246,7 @@ def main(unused_argv):
         decode_mdl_hps, vocab, num_gpus=FLAGS.num_gpus)
     decoder = seq2seq_attention_decode.BSDecoder(model, batcher, hps, vocab)
     # decoder.DecodeLoop()
-    decoder.single_decode()
+    decoder.single_decode('今天 天气 怎么样 .')
 
 
 
