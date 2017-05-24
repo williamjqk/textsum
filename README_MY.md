@@ -2,10 +2,17 @@
 CUDA_VISIBLE_DEVICES=2 python local_test.py
 ### train
 CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_data_vocab --log_root=log_root --train_dir=log_root/train
-### train noah data
-CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=noah_chs_chat/noah_data_bin --vocab_path=noah_chs_chat/noah_vocab --log_root=log_root --train_dir=log_root/train 
 ### test
 CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=decode --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_data_vocab --log_root=log_root --decode_dir=log_root/decode
+
+### train film caption data
+CUDA_VISIBLE_DEVICES=2 python main_film_caption_v1.py
+
+### train noah data
+CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=noah_chs_chat/noah_data_bin --vocab_path=noah_chs_chat/noah_vocab --log_root=log_root --train_dir=log_root/train
+### test noah data
+CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=decode --article_key=article --abstract_key=abstract --data_path=noah_chs_chat/noah_data_bin --vocab_path=noah_chs_chat/noah_vocab --log_root=log_root --decode_dir=log_root/decode --beam_size=2
+
 ### train use bucket
 CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_data_vocab --log_root=log_root --train_dir=log_root/train --use_bucketing=True
 ### test use bucket
