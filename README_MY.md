@@ -2,6 +2,8 @@
 CUDA_VISIBLE_DEVICES=2 python local_test.py
 ### train
 CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_data_vocab --log_root=log_root --train_dir=log_root/train
+### train noah data
+CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=noah_chs_chat/noah_data_bin --vocab_path=noah_chs_chat/noah_vocab --log_root=log_root --train_dir=log_root/train --batch
 ### test
 CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=decode --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_data_vocab --log_root=log_root --decode_dir=log_root/decode
 ### train use bucket
