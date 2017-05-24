@@ -18,7 +18,7 @@ read_usenet_170222a.py---------------读取这个网站下载下来的数据，�
                       ---------------http://statmt.org/wmt13/translation-task.html#download
 
 ********下面是和textsum比较相关的自定义程序**********
-get_vocab_1.py--------------对一个预料文件中出现的所有词提取出来，并记录出现次数生成一个类似
+get_vocab_1.py--------------对一个语料文件中出现的所有词提取出来，并记录出现次数生成一个类似
               --------------/data/vocab的文件
 get_vocab_2.py--------------将data中的vocab和原始自带的vocab合并，生成一个新的vocab
 get_vocab_3.py--------------写成一个shell可执行的，可给输入参数的版本
