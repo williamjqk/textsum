@@ -215,7 +215,7 @@ def main(unused_argv):
       batch_size=batch_size,
       enc_layers=4,
       enc_timesteps=120, # article max length: defailt 120
-      dec_timesteps=60, # summary max length: defailt 30
+      dec_timesteps=120, # summary max length: defailt 30
       min_input_len=2,  # discard articles/summaries < than this
       num_hidden=256,  # for rnn cell
       emb_dim=128,  # If 0, don't use embedding
