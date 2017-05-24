@@ -36,6 +36,8 @@ local_test.py-----本地测试程序
 test_py2py3.py-----测试py2py3兼容性
 compat.py---------统一的兼容性导入文件
 
+get_noah_corpus_v1.py-----把华为的noah语料整理成textsum格式
+
 ---------------------------------------------------------
 python2到python3迁移的修改点
 data_convert_example.py--------------加入了encode和decode
