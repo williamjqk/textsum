@@ -1,12 +1,14 @@
 # 运行方式
 CUDA_VISIBLE_DEVICES=2 python local_test.py
+### data convert
+python data_convert_example.py --command text_to_binary --in_file /home/data/ljc/film_caption/corpus/film_data --out_file /home/data/ljc/film_caption/corpus/film_data_bin
 ### train
 CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_data_vocab --log_root=log_root --train_dir=log_root/train
 ### test
 CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=decode --article_key=article --abstract_key=abstract --data_path=data/toy_chat_data_bin --vocab_path=data/toy_data_vocab --log_root=log_root --decode_dir=log_root/decode
 
 ### train film caption data
-CUDA_VISIBLE_DEVICES=2 python main_film_caption_v1.py --mode=train --article_key=article --abstract_key=abstract --data_path=/home/data/ljc/film_caption/corpus/film_data --vocab_path=/home/data/ljc/film_caption/corpus/film_vocab --log_root=log_root --train_dir=log_root/train
+CUDA_VISIBLE_DEVICES=2 python main_film_caption_v1.py --mode=train --article_key=article --abstract_key=abstract --data_path=/home/data/ljc/film_caption/corpus/training-aa --vocab_path=/home/data/ljc/film_caption/corpus/film_vocab --log_root=log_root --train_dir=log_root/train
 
 ### train noah data
 CUDA_VISIBLE_DEVICES=2 python local_test.py --mode=train --article_key=article --abstract_key=abstract --data_path=noah_chs_chat/noah_data_bin --vocab_path=noah_chs_chat/noah_vocab --log_root=log_root --train_dir=log_root/train

@@ -58,7 +58,7 @@ import seq2seq_attention_model
 
 base_dir = '/home/data/ljc/film_caption/corpus/'
 vocab_file = base_dir + 'film_vocab'
-data_file = base_dir + 'training-*'
+data_file = base_dir + 'film_data_bin'
 
 mode_in = 'train'
 article_key_in = 'article'
