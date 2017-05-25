@@ -222,9 +222,9 @@ def main(unused_argv):
       dec_timesteps=20, # summary max length: defailt 30
       min_input_len=1,  # discard articles/summaries < than this : default 1
       num_hidden=256,  # for rnn cell
-      emb_dim=250,  # If 0, don't use embedding: default 128
+      emb_dim=200,  # If 0, don't use embedding: default 128
       max_grad_norm=2,
-      num_softmax_samples=4096)  # If 0, no sampled softmax. default 4096
+      num_softmax_samples=2048)  # If 0, no sampled softmax. default 4096
 
   batcher = batch_reader.Batcher(
       FLAGS.data_path, vocab, hps, FLAGS.article_key,

@@ -253,7 +253,7 @@ class Seq2SeqAttentionModel(object):
       grads, global_norm = tf.clip_by_global_norm(
           tf.gradients(self._loss, tvars), hps.max_grad_norm)
     tf.summary.scalar('global_norm', global_norm)
-    optimizer = tf.train.GradientDescentOptimizer(self._lr_rate)
+    optimizer = tf.train.RMSPropOptimizer(self._lr_rate) # tf.train.GradientDescentOptimizer
     tf.summary.scalar('learning rate', self._lr_rate)
     self._train_op = optimizer.apply_gradients(
         zip(grads, tvars), global_step=self.global_step, name='train_step')
