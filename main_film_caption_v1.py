@@ -57,9 +57,8 @@ import seq2seq_attention_model
 # num_gpus_in = 1
 
 base_dir = '/home/data/ljc/film_caption/corpus/'
-caption_file = base_dir + 'srt.out'
 vocab_file = base_dir + 'film_vocab'
-data_file = base_dir + 'film_data'
+data_file = base_dir + 'training-*'
 
 mode_in = 'train'
 article_key_in = 'article'
