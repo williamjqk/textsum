@@ -215,7 +215,7 @@ def main(unused_argv):
   hps = seq2seq_attention_model.HParams(
       mode=FLAGS.mode,  # train, eval, decode
       min_lr=0.01, #0.01 # min learning rate.
-      lr=0.15, #0.15 # learning rate
+      lr=0.05, #0.15 # learning rate
       batch_size=batch_size,
       enc_layers=4,
       enc_timesteps=20, # article max length: defailt 120
